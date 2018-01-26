@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyan.mangkubumi.modul.crew.dao.CrewDao">
+	<resultMap id="BaseResultMap" type="com.tyan.mangkubumi.modul.crew.model.Crew" >
+	    <result column="id_crew" property="idCrew"/>
+	    <result column="nama_crew" property="namaCrew" />
+	    <result column="tempat_lahir" property="tempatLahir" />
+	    <result column="tanggal_lahir" property="tanggalLahir" />
+	    <result column="kontak" property="kontak" />
+	    <result column="alamat" property="alamat" />
+	</resultMap>
+	<select id="selectAll" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew" resultMap="BaseResultMap">
+  		SELECT * FROM m_crew
+		WHERE 
+		lower(nama_crew) LIKE '%'|| lower(#{namaCrew}) ||'%' ORDER BY nama_crew DESC
+  	</select>
+  	<select id="selectList" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew" resultMap="BaseResultMap">
+  		SELECT * FROM m_crew ORDER BY nama_crew ASC
+  	</select>
+  	<select id="selectWhereKey" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew" resultMap="BaseResultMap">
+  		SELECT * FROM m_crew
+		WHERE id_crew = #{idCrew}
+  	</select>
+  	<select id="countCrew" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew" resultType="java.lang.Integer">
+  		SELECT COUNT(*) FROM m_crew
+		WHERE nama_crew=#{namaCrew} AND tempat_lahir=#{tempatLahir}
+  	</select>
+  	<select id="selectMax" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew" resultType="java.lang.String">
+  		SELECT MAX(id_crew) FROM m_crew
+  	</select>
+  	<insert id="insertCrew" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew">
+  		INSERT INTO m_crew(id_crew, nama_crew, tempat_lahir, tanggal_lahir, kontak, alamat)
+    	VALUES (#{idCrew}, #{namaCrew}, #{tempatLahir}, #{tanggalLahir}, #{kontak}, #{alamat});
+  	</insert>
+  	<update id="updateCrew" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew">
+  		UPDATE m_crew
+	    SET  nama_crew=#{namaCrew}, tempat_lahir=#{tempatLahir}, tanggal_lahir=#{tanggalLahir}, kontak=#{kontak}, alamat=#{alamat}
+	 	WHERE id_crew=#{idCrew}
+  	</update>
+  	<delete id="deletCrew" parameterType="com.tyan.mangkubumi.modul.crew.model.Crew">
+  		DELETE FROM m_crew
+ 		WHERE id_crew=#{idCrew}
+  	</delete>
+</mapper>

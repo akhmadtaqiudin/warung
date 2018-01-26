@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <package name="Belanja" extends="json-default,struts-default" namespace="/belanja">
+    
+    	<!--mendeklarasikan dan memanggil class interceptor -->
+    	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.tyan.mangkubumi.core.controller.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/template/login.jsp</result>
+		</global-results>
+    	<action name="searchAllBelanja" class="com.tyan.mangkubumi.modul.belanja.controller.BelanjaController" method="serachAllBelanja">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/transaction/belanjaMain.jsp</result>
+    		<result name="success">/pages/modul/transaction/belanjaMain.jsp</result>
+    		<result name="error">/pages/modul/transaction/belanjaMain.jsp</result>
+    	</action>
+    	<action name="AddBelanja">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/transaction/belanjaAdd.jsp</result>
+    		<result name="success">/pages/modul/transaction/belanjaAdd.jsp</result>
+    		<result name="error">/pages/modul/transaction/belanjaAdd.jsp</result>
+    	</action>
+    	<action name="SaveBelanja" class="com.tyan.mangkubumi.modul.belanja.controller.BelanjaController" method="addBelanja">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/transaction/belanjaAdd.jsp</result>
+    		<result name="success">/pages/modul/transaction/belanjaMain.jsp</result>
+    		<result name="error">/pages/modul/transaction/belanjaAdd.jsp</result>
+    	</action>
+    	<action name="ViewBelanja" class="com.tyan.mangkubumi.modul.belanja.controller.BelanjaController" method="serachBelanjaByKey">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/transaction/belanjaView.jsp</result>
+    		<result name="success">/pages/modul/transaction/belanjaView.jsp</result>
+    		<result name="error">/pages/modul/transaction/belanjaView.jsp</result>
+    	</action>
+    	<action name="Report">
+    		<interceptor-ref name="authStack"/>
+	        <result name="input">/pages/modul/transaction/reportBelanja.jsp</result>
+    		<result name="success">/pages/modul/transaction/reportBelanja.jsp</result>
+    		<result name="error">/pages/modul/transaction/reportBelanja.jsp</result>
+    	</action>
+    	<action name="ReportBelanja" class="com.tyan.mangkubumi.modul.belanja.controller.BelanjaController" method="report">
+    		<interceptor-ref name="authStack"/>
+	        <result name="input">/pages/modul/transaction/reportBelanja.jsp</result>
+    		<result name="success">/pages/modul/transaction/reportBelanja.jsp</result>
+    		<result name="error">/pages/modul/transaction/reportBelanja.jsp</result>
+    	</action>
+    	<action name="ExportReportBelanja" class="com.tyan.mangkubumi.modul.belanja.controller.BelanjaController"  method="reportBelanja">
+	       	<interceptor-ref name="authStack" />
+	        <result name="input">/pages/modul/transaction/reportBelanja.jsp</result>
+			<result name="success" type="stream">
+				<param name="contentType">application/vnd.ms-excel</param>
+		        <param name="inputName">inputStreamFile</param>
+		        <param name="contentDisposition">attachment;filename="${fileName}"</param>
+		        <param name="bufferSize">4096</param>
+			</result>
+			<result name="error">/pages/modul/transaction/reportBelanja.jsp</result>
+		</action>
+    </package>
+</struts>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <package name="Crew" extends="json-default,struts-default" namespace="/crew">
+    
+    	<!--mendeklarasikan dan memanggil class interceptor -->
+    	<interceptors>
+    		<interceptor name="authinterceptorLogin" class="com.tyan.mangkubumi.core.controller.CoreAuthentication" />
+    		<interceptor-stack name="authStack">
+				<interceptor-ref name="authinterceptorLogin"/>
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="basicStack"/>
+			</interceptor-stack>
+    	</interceptors>
+    	
+    	<global-results>
+			<result name="login">/pages/template/login.jsp</result>
+		</global-results>
+    	<action name="search" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="searchAllCrew">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="success">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewMain.jsp</result>
+    	</action>
+    	<action name="AddCrew">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/master/crew/crewAdd.jsp</result>
+    		<result name="success">/pages/modul/master/crew/crewAdd.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewAdd.jsp</result>
+    	</action>
+    	<action name="SaveCrew" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="addCrew">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/master/crew/crewAdd.jsp</result>
+    		<result name="success">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewAdd.jsp</result>
+    	</action>
+    	<action name="EditCrew" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="searchWhereKey">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/master/crew/crewEdit.jsp</result>
+    		<result name="success">/pages/modul/master/crew/crewEdit.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewEdit.jsp</result>
+    	</action>
+    	<action name="SaveEditCrew" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="editCrew">
+    		<interceptor-ref name="authStack"/>
+    		<result name="input">/pages/modul/master/crew/crewEdit.jsp</result>
+    		<result name="success">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewEdit.jsp</result>
+    	</action>
+    	<action name="DeletCrew" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="deletCrew">
+    		<interceptor-ref name="authStack"/>
+    		<result name="success">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewMain.jsp</result>
+    	</action>
+    	<action name="SelectAll" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="searchAll">
+    		<interceptor-ref name="authStack"/>
+    		<result name="success">/pages/modul/master/crew/crewMain.jsp</result>
+    		<result name="error">/pages/modul/master/crew/crewMain.jsp</result>
+    	</action>
+    	<action name="SelectByJson" class="com.tyan.mangkubumi.modul.crew.controller.CrewController" method="searchAllCrew">
+    		<result type="json">
+                <param name="noCache">true</param>
+		        <param name="root">crew</param>
+    		</result>
+    	</action>
+    </package>
+</struts>
